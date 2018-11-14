@@ -1,5 +1,5 @@
-<p>Welcome to <b>Fangling</b>!</p>
-<p>The following user is registering,</p>
+<p>欢迎来到 <b>方菱</b>!</p>
+<p>以下客户正在注册，</p>
 <table border="1">
 <tr>
   <td>电子邮箱</td>
@@ -14,9 +14,9 @@
   <td>{{ user.companyname }}</td>
 </tr>
 </table>
-<p>To confirm the account please <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a>.</p>
-<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>确认该客户注册验证，请点击 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a>.</p>
+<p>或者，您可以复制粘贴下列地址到您的浏览器的地址栏</p>
 <p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
-<p>Sincerely,</p>
-<p>The Fangling Team</p>
+<p>谢谢</p>
+<p>方菱团队</p>
 <p><small>Note: replies to this email address are not monitored.</small></p>
