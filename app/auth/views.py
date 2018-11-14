@@ -1,3 +1,7 @@
+"""
+Blueprint auth
+"""
+
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, \
     current_user
@@ -9,7 +13,7 @@ from .forms import LoginForm, RegistrationForm
 
 
 """
-3 conditions to activate the before_app_request
+before_app_request (3 conditions to activate):
 1. current_user.is_authenticated(): True
 2. unconfirmed account
 3. request.endpoint not in blueprint
@@ -70,8 +74,8 @@ def register():
         """
         Send email to customer to confirm the account
         """
-        #send_email(user.email, 'Confirm Your Account',
-        #           'auth/email/confirm', user=user, token=token)
+        # send_email(user.email, 'Confirm Your Account',
+        #            'auth/email/confirm', user=user, token=token)
         """
         Send email to Fangling to confirm the account
         """
@@ -90,9 +94,9 @@ def confirm(token):
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
         db.session.commit()
-        flash('We have confirmed the account.')
+        flash('您的账户已经被确认授权。')
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('确认授权链接已经失效或过期。')
     return redirect(url_for('main.index'))
 
 
@@ -100,8 +104,7 @@ def confirm(token):
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm Your Account',
+    send_email(current_user.email, '确认客户账户',
                'auth/email/confirm', user=current_user, token=token)
-    flash('A new confirmation email has been sent to Fangling company by email. '
-          'Please contact the company.')
+    flash('一封确认客户账户邮件已经被发送至方菱数控有限公司，请联系公司。 ')
     return redirect(url_for('main.index'))

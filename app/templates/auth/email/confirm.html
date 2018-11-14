@@ -1,8 +1,19 @@
 <p>Welcome to <b>Fangling</b>!</p>
 <p>The following user is registering,</p>
-<p>{{ user.email }}</p>
-<p>{{ user.username }}</p>
-<p>{{ user.companyname }}</p>
+<table border="1">
+<tr>
+  <td>电子邮箱</td>
+  <td>{{ user.email }}</td>
+</tr>
+<tr>
+  <td>用户名</td>
+  <td>{{ user.username }}</td>
+</tr>
+<tr>
+  <td>公司名称</td>
+  <td>{{ user.companyname }}</td>
+</tr>
+</table>
 <p>To confirm the account please <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a>.</p>
 <p>Alternatively, you can paste the following link in your browser's address bar:</p>
 <p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>

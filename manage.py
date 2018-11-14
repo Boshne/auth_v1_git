@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""
+manage is used to start programs and other program tasks.
+
+Requirements.txt lists all dependency packages to facilitate
+the regeneration of the same virtual environment on other computers.
+"""
+
 import os
 from app import create_app, db
 from app.models import User, Role
