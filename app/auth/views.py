@@ -8,6 +8,14 @@ from ..email import send_email
 from .forms import LoginForm, RegistrationForm
 
 
+"""
+3 conditions to activate the before_app_request
+1. current_user.is_authenticated(): True
+2. unconfirmed account
+3. request.endpoint not in blueprint
+"""
+
+
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated \
@@ -16,6 +24,7 @@ def before_request():
             and request.blueprint != 'auth' \
             and request.endpoint != 'static':
         return redirect(url_for('auth.unconfirmed'))
+
 
 @auth.route('/unconfirmed')
 def unconfirmed():
@@ -58,14 +67,18 @@ def register():
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
-        #给自己发送邮件验证
+        """
+        Send email to customer to confirm the account
+        """
         #send_email(user.email, 'Confirm Your Account',
         #           'auth/email/confirm', user=user, token=token)
+        """
+        Send email to Fangling to confirm the account
+        """
         send_email('z99340@qq.com', 'Confirm User Account',
                    'auth/email/confirm', user=user, token=token)
         flash('A confirmation email has been sent to Fangling company. '
-              'Please contact Fangling'
-              'to confirm your account.')
+              'Please contact Fangling to confirm your account.')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
