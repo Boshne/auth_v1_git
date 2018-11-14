@@ -1,0 +1,19 @@
+Welcome to Fangling!
+
+The following user is registering,
+
+{{ user.email }}
+
+{{ user.username }}
+
+{{ user.companyname }}
+
+To confirm your account please click on the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The Fangling Team
+
+Note: replies to this email address are not monitored.
