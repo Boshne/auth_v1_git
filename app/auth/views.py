@@ -1,5 +1,6 @@
 """
 Blueprint auth
+Used for Registration and Login
 """
 
 from flask import render_template, redirect, request, url_for, flash
