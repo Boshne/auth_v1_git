@@ -1,4 +1,4 @@
-from datetime import datetime
+# from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -7,6 +7,7 @@ from . import db, login_manager
 
 
 class Role(db.Model):
+    """Define Role Class"""
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
@@ -17,6 +18,7 @@ class Role(db.Model):
 
 
 class User(UserMixin, db.Model):
+    """Define User Class"""
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
@@ -37,7 +39,8 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def generate_confirmation_token(self, expiration = 3600):
+    def generate_confirmation_token(self, expiration=3600):
+        """Produce the confirmation token. Time limited: 3600s"""
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id}).decode('utf-8')
 
@@ -51,6 +54,26 @@ class User(UserMixin, db.Model):
             return False
         self.confirmed = True
         db.session.add(self)
+        return True
+
+    def generate_reset_token(self, expiration=3600):
+        """Produce the confirmation token. Time limited: 3600s"""
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id}).decode('utf-8')
+
+    @staticmethod
+    def reset_password(token, new_password):
+        """reset_password is defined as a static method."""
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        user = User.query.get(data.get('reset'))
+        if user is None:
+            return False
+        user.password = new_password
+        db.session.add(user)
         return True
 
     def __repr__(self):

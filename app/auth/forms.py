@@ -7,8 +7,8 @@ from ..models import User
 
 class LoginForm(FlaskForm):
     """Login Form"""
-    email = StringField('电子邮箱', validators=[DataRequired(), Length(1, 64),
-                                             Email()])
+    email = StringField('电子邮箱', validators=[
+        DataRequired(), Length(1, 64), Email()])
     password = PasswordField('密码', validators=[DataRequired()])
     remember_me = BooleanField('记住我（下次自动登录）')
     submit = SubmitField('登录')
@@ -16,8 +16,8 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     """Registration Form"""
-    email = StringField('电子邮箱', validators=[DataRequired(), Length(1, 64),
-                                             Email()])
+    email = StringField('电子邮箱', validators=[
+        DataRequired(), Length(1, 64), Email()])
     username = StringField('用户名', validators=[
         DataRequired(), Length(1, 64),
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
@@ -40,3 +40,29 @@ class RegistrationForm(FlaskForm):
     def validate_companyname(self, field):
         if User.query.filter_by(companyname=field.data).first():
             raise ValidationError('该公司名称已被使用。')
+
+
+class ChangePasswordForm(FlaskForm):
+    """Change Password Form"""
+    old_password = PasswordField('Old password', validators=[DataRequired()])
+    password = PasswordField('New password', validators=[
+        DataRequired(), EqualTo('password2', message='Passwords must match.')])
+    password2 = PasswordField('Confirm new password',
+                              validators=[DataRequired()])
+    submit = SubmitField('修改密码')
+
+
+class PasswordResetRequestForm(FlaskForm):
+    """Forget and Reset Password Request Form"""
+    email = StringField('Email', validators=[
+        DataRequired(), Length(1, 64), Email()])
+    submit = SubmitField('忘了密码？')
+
+
+class PasswordResetForm(FlaskForm):
+    """Password Reset Form"""
+    password = PasswordField('New Password', validators=[
+        DataRequired(), EqualTo('password2', message='两次输入的密码必须一致。')])
+    password2 = PasswordField('Confirm password', validators=[DataRequired()])
+    submit = SubmitField('重设密码')
+

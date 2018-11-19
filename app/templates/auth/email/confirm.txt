@@ -1,17 +1,19 @@
-Welcome to Fangling!
+欢迎来到方菱!
 
-The following user is registering,
+以下客户正在注册，
 
+电子邮箱
 {{ user.email }}
 
+用户名
 {{ user.username }}
 
+公司名称
 {{ user.companyname }}
 
-To confirm your account please click on the following link:
+确认该客户注册验证，请点击下方链接，
+{{ url_for('auth.confirm', token=token, _external=True) }}</p>
 
-{{ url_for('auth.confirm', token=token, _external=True) }}
+谢谢
 
-Sincerely,
-
-The Fangling Team
+方菱团队
