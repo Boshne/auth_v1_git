@@ -11,7 +11,7 @@ class NameForm(FlaskForm):
 
 class GenerateKeyFrom(FlaskForm):
     hasp_id = StringField('Hasp ID', validators=[
-        DataRequired(), Length(1,64), Regexp(
+        DataRequired(), Length(1, 64), Regexp(
             '^[0-9]*$', 0, 'must have only numbers')])
     musk = StringField('Musk', validators=[
         DataRequired(), Length(1, 64), Regexp(
